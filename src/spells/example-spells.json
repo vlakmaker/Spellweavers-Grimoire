@@ -1,0 +1,69 @@
+[
+  {
+    "id": "chain-of-thought-basic",
+    "title": "Chain of Thought Reasoning",
+    "description": "Encourages the model to think step by step to solve complex problems.",
+    "category": "thoughtcraft",
+    "difficulty": "easy",
+    "template": "Let's think step by step.\n\nQuestion: {{question}}\nAnswer:",
+    "placeholders": [
+      "question"
+    ],
+    "exampleInputs": {
+      "question": "If John has 3 apples and gives one to Sarah, how many does he have left?"
+    },
+    "exampleOutput": "Let's think step by step.\nJohn starts with 3 apples.\nHe gives 1 to Sarah.\n3 - 1 = 2.\nAnswer: 2 apples.",
+    "tags": [
+      "reasoning",
+      "logic",
+      "beginner"
+    ],
+    "notes": "Chain of Thought prompting improves accuracy on tasks requiring intermediate reasoning.",
+    "author": "BittyGPT"
+  },
+  {
+    "id": "persona-summoner-historian",
+    "title": "Summon the Whimsical Historian",
+    "description": "Summon a quirky yet insightful AI historian to explain events with charm and accuracy.",
+    "category": "persona",
+    "difficulty": "medium",
+    "template": "You are a whimsical historian who explains history with stories and metaphors.\nTopic: {{topic}}\nExplain:",
+    "placeholders": [
+      "topic"
+    ],
+    "exampleInputs": {
+      "topic": "The fall of the Western Roman Empire"
+    },
+    "exampleOutput": "Ah, let me spin you a tale from the crumbling days of Rome...",
+    "tags": [
+      "history",
+      "persona",
+      "creative"
+    ],
+    "notes": "Personas are useful when tone, relatability, or engagement matter.",
+    "author": "BittyGPT"
+  },
+  {
+    "id": "react-self-check",
+    "title": "React with Verification",
+    "description": "A self-checking prompt where the AI provides an answer and then verifies its correctness.",
+    "category": "feedback",
+    "difficulty": "medium",
+    "template": "Question: {{question}}\nAnswer: {{answer}}\nNow verify if this answer is correct and explain why.",
+    "placeholders": [
+      "question",
+      "answer"
+    ],
+    "exampleInputs": {
+      "question": "What is the capital of France?",
+      "answer": "Paris"
+    },
+    "exampleOutput": "The answer is Paris. Let's verify: Paris is the capital city of France, known for its landmarks such as the Eiffel Tower. The answer is correct.",
+    "tags": [
+      "verification",
+      "feedback"
+    ],
+    "notes": "Great for encouraging models to reflect or self-correct.",
+    "author": "BittyGPT"
+  }
+]
