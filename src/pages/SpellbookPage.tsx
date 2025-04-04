@@ -1,40 +1,34 @@
-import React, { useEffect, useState } from "react";
-import SpellCard from "../components/SpellCard";
-import exampleSpells from "../spells/example-spells.json"; // Import JSON
-import { Spell } from "../types/Spell"; // (Optional) if you define types
+// src/pages/SpellbookPage.tsx
+import { Container, Title, Text, Stack } from "@mantine/core";
 
 function SpellbookPage() {
-  const [spells, setSpells] = useState<Spell[]>([]); // or useState<any[]>([]);
-
-  useEffect(() => {
-    console.log("🔍 Loaded Spells:", exampleSpells);
-    setSpells(exampleSpells as Spell[]); // Casting to Spell[] or any[]
-  }, []);
-
-  const handleClick = (id: string) => {
-    console.log(`🧙‍♂️ Spell clicked: ${id}`);
-    // Future: Navigate to the editor page
-  };
-
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">📖 Spellbook</h1>
+    <Container>
+      <Title order={1}>📖 Spellbook</Title>
 
-      {spells.length === 0 ? (
-        <p className="text-center text-gray-500">No spells loaded...</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {spells.map((spell) => (
-            <SpellCard
-              key={spell.id}
-              title={spell.title}
-              description={spell.description}
-              onClick={() => handleClick(spell.id)}
-            />
-          ))}
+      <Stack spacing="xl" mt="md">
+        <div>
+          <Title order={2}>Chain of Thought Reasoning</Title>
+          <Text>
+            Encourages the model to think step by step to solve complex problems.
+          </Text>
         </div>
-      )}
-    </div>
+
+        <div>
+          <Title order={2}>Summon the Whimsical Historian</Title>
+          <Text>
+            Summon a quirky yet insightful AI historian to explain events with charm and accuracy.
+          </Text>
+        </div>
+
+        <div>
+          <Title order={2}>React with Verification</Title>
+          <Text>
+            A self-checking prompt where the AI provides an answer and then verifies its correctness.
+          </Text>
+        </div>
+      </Stack>
+    </Container>
   );
 }
 

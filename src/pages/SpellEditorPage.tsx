@@ -1,10 +1,15 @@
-const SpellEditorPage = () => {
+// src/pages/SpellEditorPage.tsx
+import { Container, Title, Text } from "@mantine/core";
+
+function SpellEditorPage() {
   return (
-    <div>
-      <h1>🪄 Spell Editor</h1>
-      <p>Create, refine, and test your magical prompts here.</p>
-    </div>
+    <Container>
+      <Title order={1}>✨ Spell Editor</Title>
+      <Text mt="md">
+        Create, refine, and test your magical prompts here.
+      </Text>
+    </Container>
   );
-};
+}
 
 export default SpellEditorPage;

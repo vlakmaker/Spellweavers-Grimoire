@@ -1,14 +1,27 @@
-import { Button, Container, Title } from "@mantine/core";
+// src/pages/NotFoundPage.tsx
+import { Container, Title, Text, Button, Center } from "@mantine/core";
+import { Link } from "react-router-dom";
 
-function HomePage() {
+function NotFoundPage() {
   return (
-    <Container>
-      <Title order={1}>Hello from Spellweaver’s Grimoire 🪄</Title>
-      <Button color="grape" mt="md">
-        Cast a Spell!
-      </Button>
-    </Container>
+    <Center style={{ height: '80vh' }}>
+      <Container ta="center">
+        <Title order={1}>🧩 Page Not Found</Title>
+        <Text mt="sm" color="dimmed">
+          Uh oh... this part of the grimoire seems to be missing!
+        </Text>
+        <Button
+          mt="lg"
+          variant="light"
+          color="grape"
+          component={Link}
+          to="/"
+        >
+          Return to the Library 🏛️
+        </Button>
+      </Container>
+    </Center>
   );
 }
 
-export default HomePage;
+export default NotFoundPage;
