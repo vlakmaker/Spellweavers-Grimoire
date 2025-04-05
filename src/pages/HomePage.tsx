@@ -1,27 +1,26 @@
-// src/pages/NotFoundPage.tsx
-import { Container, Title, Text, Button, Center } from "@mantine/core";
+// src/pages/HomePage.tsx
+import { Container, Title, Text, Button, Stack, Center } from "@mantine/core";
 import { Link } from "react-router-dom";
 
-function NotFoundPage() {
+function HomePage() {
   return (
-    <Center style={{ height: '80vh' }}>
-      <Container ta="center">
-        <Title order={1}>🧩 Page Not Found</Title>
-        <Text mt="sm" color="dimmed">
-          Uh oh... this part of the grimoire seems to be missing!
-        </Text>
-        <Button
-          mt="lg"
-          variant="light"
-          color="grape"
-          component={Link}
-          to="/"
-        >
-          Return to the Library 🏛️
-        </Button>
+    <Center style={{ height: "80vh" }}>
+      <Container size="sm" ta="center">
+        <Stack align="center" gap="lg">
+          <Title order={1}>🧙‍♀️ Welcome to the Promptweaver’s Grimoire</Title>
+          <Text c="dimmed">
+            Craft magical AI prompts, learn arcane techniques, and become a true Spellwright.
+          </Text>
+          <Button component={Link} to="/editor" size="md" color="grape">
+            Begin Spellweaving ✍️
+          </Button>
+          <Button component={Link} to="/spellbook" variant="light" size="sm">
+            Browse the Spellbook 📚
+          </Button>
+        </Stack>
       </Container>
     </Center>
   );
 }
 
-export default NotFoundPage;
+export default HomePage;
