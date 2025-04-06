@@ -33,7 +33,7 @@ const HomePage = () => {
         <Button
           size="md"
           color="grape"
-          onClick={() => navigate("/editor")}
+          onClick={() => navigate("/start")}
           leftSection={<IconWand size={18} />}
         >
           Begin Spellweaving
@@ -43,7 +43,7 @@ const HomePage = () => {
         <Button
           size="md"
           color="grape"
-          variant="light"
+          variant="filled"
           onClick={() => navigate("/spellbook")}
           leftSection={<span>📖</span>}
         >

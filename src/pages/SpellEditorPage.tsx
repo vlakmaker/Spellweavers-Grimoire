@@ -10,10 +10,15 @@ import {
   Paper,
   Text,
   Divider,
+  Loader,
+  Alert,
+  Select,
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import defaultSpells from "../data/defaultSpells";
+import { callLLM } from "../lib/callLLM";
+import modelOptions from "../data/modelOptions";
 
 function SpellEditorPage() {
   const [searchParams] = useSearchParams();
@@ -25,6 +30,12 @@ function SpellEditorPage() {
   const [outputFormat, setOutputFormat] = useState("");
   const [context, setContext] = useState("");
 
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [apiKey, setApiKey] = useState("");
+  const [model, setModel] = useState("openai/gpt-3.5-turbo");
+
   useEffect(() => {
     if (spellPath && defaultSpells[spellPath]) {
       const spell = defaultSpells[spellPath];
@@ -34,6 +45,9 @@ function SpellEditorPage() {
       setOutputFormat(spell.outputFormat || "");
       setContext(spell.context || "");
     }
+
+    const savedKey = localStorage.getItem("openai-api-key");
+    if (savedKey) setApiKey(savedKey);
   }, [spellPath]);
 
   const generatePrompt = () => {
@@ -42,6 +56,27 @@ function SpellEditorPage() {
       (context ? `Context: ${context}\n\n` : "") +
       (example ? `Example:\n${example}\n\n` : "") +
       (outputFormat ? `Format: ${outputFormat}` : "");
+  };
+
+  const handleCastSpell = async () => {
+    if (!apiKey) {
+      setError("No API key found. Please set your API key.");
+      return;
+    }
+
+    const prompt = generatePrompt();
+    setLoading(true);
+    setError(null);
+    setResult("");
+
+    try {
+      const response = await callLLM({ prompt, apiKey, model });
+      setResult(response);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -84,10 +119,18 @@ function SpellEditorPage() {
               value={context}
               onChange={(e) => setContext(e.currentTarget.value)}
             />
+            <Select
+              label="🧠 Model"
+              placeholder="Choose an LLM"
+              data={modelOptions}
+              value={model}
+              onChange={(value) => value && setModel(value)}
+              withinPortal
+            />
           </Stack>
         </Grid.Col>
 
-        {/* Right: Preview */}
+        {/* Right: Preview + Output */}
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Paper shadow="md" p="md" radius="md" withBorder>
             <Title order={4}>🔮 Preview</Title>
@@ -95,9 +138,32 @@ function SpellEditorPage() {
             <Text size="sm" style={{ whiteSpace: "pre-wrap" }}>
               {generatePrompt()}
             </Text>
-            <Button fullWidth mt="md" color="grape">
+
+            <Button fullWidth mt="md" color="grape" onClick={handleCastSpell} loading={loading}>
               Cast Spell
             </Button>
+
+            {loading && (
+              <Text c="dimmed" mt="sm">
+                ✨ The spell is being cast...
+              </Text>
+            )}
+
+            {error && (
+              <Alert color="red" mt="sm">
+                {error}
+              </Alert>
+            )}
+
+            {result && (
+              <>
+                <Divider my="sm" />
+                <Title order={5}>📝 Result</Title>
+                <Text mt="xs" style={{ whiteSpace: "pre-wrap" }}>
+                  {result}
+                </Text>
+              </>
+            )}
           </Paper>
         </Grid.Col>
       </Grid>
