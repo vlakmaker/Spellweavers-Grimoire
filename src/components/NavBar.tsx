@@ -1,6 +1,8 @@
-import { ActionIcon, Container, Group, Text, rem } from "@mantine/core";
+import { Container, Group, Text, Button, rem, ActionIcon } from "@mantine/core";
 import { IconSun, IconMoon } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { useDisclosure } from "@mantine/hooks";
+import APIKeyModal from "./APIKeyModal";
 
 type NavBarProps = {
   toggleColorScheme: () => void;
@@ -8,6 +10,8 @@ type NavBarProps = {
 };
 
 const NavBar = ({ toggleColorScheme, colorScheme }: NavBarProps) => {
+  const [opened, { open, close }] = useDisclosure(false);
+
   return (
     <Container
       fluid
@@ -20,16 +24,22 @@ const NavBar = ({ toggleColorScheme, colorScheme }: NavBarProps) => {
         borderBottom: "1px solid #e0e0e0",
       }}
     >
-      <Text
-        component={Link}
-        to="/"
-        fw={700}
-        fz="lg"
-        c="grape"
-        style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: rem(8) }}
-      >
-        🧙 Spellweaver’s Grimoire
-      </Text>
+      <Group spacing="xs">
+        <Text
+          component={Link}
+          to="/"
+          fw={700}
+          fz="lg"
+          c="grape"
+          style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: rem(8) }}
+        >
+          🧙 Spellweaver’s Grimoire
+        </Text>
+        <Button size="xs" onClick={open} color="grape" variant="filled">
+          🔑 Set API Key
+        </Button>
+        <APIKeyModal opened={opened} onClose={close} />
+      </Group>
 
       <Group spacing="md">
         <Text component={Link} to="/" style={{ textDecoration: "none" }}>
