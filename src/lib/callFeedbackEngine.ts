@@ -1,5 +1,6 @@
 // src/lib/callFeedbackEngine.ts
 import { callLLM } from "../lib/callLLM";
+import { debugLog } from "../utils/debug";
 
 export type FeedbackRequest = {
   directive: string;
@@ -63,7 +64,7 @@ Respond in this exact format:
 
   const response = await callLLM({ prompt: evaluationPrompt, apiKey, model });
 
-  console.log("🧪 Raw feedback response:", response);
+  debugLog("🦪 Raw feedback response:", response);
 
   const scoreMatch = response.match(/Final Score:\s*(\d{1,2})\/10/i);
   const tipMatch = response.match(/💡 Tip:\s*(.+)/i);
