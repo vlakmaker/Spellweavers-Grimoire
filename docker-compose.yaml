@@ -1,20 +1,15 @@
 services:
   spellgrimoire:
     build: .
-    container_name: grimoire_app
-    volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    networks:
-      - traefik-net
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.spellgrimoire.rule=Host(`grimoire.bittygpt.com`)"
       - "traefik.http.routers.spellgrimoire.entrypoints=websecure"
       - "traefik.http.routers.spellgrimoire.tls.certresolver=letsencrypt"
       - "traefik.http.services.spellgrimoire.loadbalancer.server.port=3000"
+    networks:
+      - traefik-net
 
 networks:
   traefik-net:

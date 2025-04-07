@@ -1,18 +1,18 @@
-# 1. Use an official Node base image
-FROM node:20
-
-# 2. Set working directory
+# Dockerfile
+FROM node:18-alpine AS builder
 WORKDIR /app
 
-# 3. Copy package files and install dependencies
-COPY package*.json ./
+# Install dependencies and build
+COPY package.json package-lock.json ./
 RUN npm install
-
-# 4. Copy the rest of your app
 COPY . .
+RUN npm run build
 
-# 5. Expose the default Vite port
+# Serve the static files
+FROM node:18-alpine
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=builder /app/dist /app/dist
 EXPOSE 3000
 
-# 6. Run the dev server
-CMD ["npm", "run", "dev"]
+CMD ["serve", "-s", "dist", "-l", "3000"]
