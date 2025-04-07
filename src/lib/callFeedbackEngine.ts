@@ -1,7 +1,7 @@
 // src/lib/callFeedbackEngine.ts
 import { callLLM } from "../lib/callLLM";
 
-type FeedbackRequest = {
+export type FeedbackRequest = {
   directive: string;
   role: string;
   example?: string;
@@ -14,9 +14,9 @@ type FeedbackRequest = {
 export async function callFeedbackEngine({
   directive,
   role,
-  example,
-  outputFormat,
-  context,
+  example = "",
+  outputFormat = "",
+  context = "",
   apiKey,
   model,
 }: FeedbackRequest): Promise<{
@@ -68,11 +68,11 @@ Respond in this exact format:
   const scoreMatch = response.match(/Final Score:\s*(\d{1,2})\/10/i);
   const tipMatch = response.match(/💡 Tip:\s*(.+)/i);
   const sectionMatch = {
-    role: (response.match(/- Role:\s*(.+)/i) || [])[1] || "",
-    directive: (response.match(/- Directive:\s*(.+)/i) || [])[1] || "",
-    example: (response.match(/- Example:\s*(.+)/i) || [])[1] || "",
-    format: (response.match(/- Format:\s*(.+)/i) || [])[1] || "",
-    context: (response.match(/- Context:\s*(.+)/i) || [])[1] || "",
+    role: (response.match(/- Role:\s*(.+)/i) || [])[1]?.trim() || "",
+    directive: (response.match(/- Directive:\s*(.+)/i) || [])[1]?.trim() || "",
+    example: (response.match(/- Example:\s*(.+)/i) || [])[1]?.trim() || "",
+    format: (response.match(/- Format:\s*(.+)/i) || [])[1]?.trim() || "",
+    context: (response.match(/- Context:\s*(.+)/i) || [])[1]?.trim() || "",
   };
 
   if (!scoreMatch || !tipMatch) {
@@ -80,9 +80,11 @@ Respond in this exact format:
   }
 
   return {
-    score: parseInt(scoreMatch[1]),
+    score: parseInt(scoreMatch[1], 10),
     feedback: Object.values(sectionMatch).join("\n"),
     tips: tipMatch[1].trim(),
     sections: sectionMatch,
   };
 }
+
+export default callFeedbackEngine;
