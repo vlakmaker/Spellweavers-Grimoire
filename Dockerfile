@@ -6,13 +6,13 @@ WORKDIR /app
 
 # 3. Copy package files and install dependencies
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # 4. Copy the rest of your app
 COPY . .
 
 # 5. Expose the default Vite port
-EXPOSE 5173
+EXPOSE 3000
 
 # 6. Run the dev server
 CMD ["npm", "run", "dev"]
