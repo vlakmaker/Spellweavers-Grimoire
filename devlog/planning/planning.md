@@ -2,9 +2,9 @@
 
 **Goal:** Set up the project base (repo, structure, and tools).
 
-- [ ]  Create a new GitHub repo (public, to showcase product thinking).
-- [ ]  Choose your framework: likely React + Tailwind (clean + interactive).
-- [ ]  Setup project scaffolding (pages for editor, spell list, etc.).
+- [x]  Create a new GitHub repo (public, to showcase product thinking).
+- [x]  Choose your framework: likely React + Tailwind (clean + interactive).
+- [x]  Setup project scaffolding (pages for editor, spell list, etc.).
 - [ ]  Create folders for prompts, UI components, spell metadata.
 
 ---
