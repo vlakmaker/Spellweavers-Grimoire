@@ -36,7 +36,18 @@ function SpellEditorPage() {
   const [error, setError] = useState<string | null>(null);
   const [apiKey, setApiKey] = useState("");
   const [model, setModel] = useState("openai/gpt-3.5-turbo");
-  const [feedback, setFeedback] = useState<null | { score: number; feedback: string }>(null);
+  const [feedback, setFeedback] = useState<null | {
+    score: number;
+    feedback: string;
+    tips: string;
+    sections: {
+      role: string;
+      directive: string;
+      example: string;
+      format: string;
+      context: string;
+    };
+  }>(null);
 
   useEffect(() => {
     if (spellPath && defaultSpells[spellPath]) {
@@ -79,7 +90,16 @@ ${directive}
       const response = await callLLM({ prompt, apiKey, model });
       setResult(response);
 
-      const feedbackResult = await callFeedbackEngine({ prompt, role, apiKey, model });
+      const feedbackResult = await callFeedbackEngine({
+        directive,
+        role,
+        example,
+        outputFormat,
+        context,
+        apiKey,
+        model,
+      });
+
       setFeedback(feedbackResult);
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
@@ -93,7 +113,6 @@ ${directive}
       <Title order={2} mb="md">✍️ Compose Your Spell</Title>
 
       <Grid>
-        {/* Left: Inputs */}
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Stack gap="sm">
             <TextInput label="🧭 Directive" value={directive} onChange={(e) => setDirective(e.currentTarget.value)} />
@@ -101,11 +120,10 @@ ${directive}
             <Textarea label="📚 Example (optional)" minRows={3} value={example} onChange={(e) => setExample(e.currentTarget.value)} />
             <TextInput label="📦 Output Format (optional)" value={outputFormat} onChange={(e) => setOutputFormat(e.currentTarget.value)} />
             <Textarea label="🧠 Additional Context (optional)" minRows={2} value={context} onChange={(e) => setContext(e.currentTarget.value)} />
-            <Select label="🧠 Model" data={modelOptions} value={model} onChange={(value) => value && setModel(value)} withinPortal />
+            <Select label="🧠 Model" data={modelOptions} value={model} onChange={(value) => value && setModel(value)} />
           </Stack>
         </Grid.Col>
 
-        {/* Right: Preview */}
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Paper shadow="md" p="md" radius="md" withBorder>
             <Title order={4}>🔮 Preview</Title>
@@ -118,7 +136,6 @@ ${directive}
         </Grid.Col>
       </Grid>
 
-      {/* New Result + Feedback Section */}
       {(result || feedback) && (
         <Paper shadow="sm" p="md" radius="md" withBorder mt="lg">
           {result && (
@@ -129,7 +146,7 @@ ${directive}
             </>
           )}
 
-          {feedback && <FeedbackPreview score={feedback.score} feedback={feedback.feedback} />}
+          {feedback && <FeedbackPreview score={feedback.score} feedback={feedback.feedback} tips={feedback.tips} sections={feedback.sections} />}
         </Paper>
       )}
     </Container>
